@@ -631,6 +631,11 @@ for (i in 1:length(링크_news.naver)){
 
 ##댓글
 
+댓글_news.naver <- c()
+댓글수_news.naver <- c()
+주소_news.naver.re <- c()
+
+
 for (i in 1:length(링크_news.naver)){
   
   tryCatch({
@@ -641,10 +646,10 @@ for (i in 1:length(링크_news.naver)){
     
     Sys.sleep(time = 1)
     
+    
     #전체 댓글 더보기
     
     reply <- remDr$findElement("css", "span.u_cbox_in_view_comment")
-    
     reply$clickElement()
     
     
@@ -675,7 +680,7 @@ for (i in 1:length(링크_news.naver)){
     
     
     #댓글+댓글수
-    
+
     body <- remDr$getPageSource()[[1]]
     body <- body %>% read_html()
     
