@@ -84,11 +84,9 @@ Sys.sleep(time = 0.5)
 
 
 
-## 링크 언론사
+## 링크
 
 링크_nnews <- c()
-언론사_nnews <- c()
-
 
 for(i in 1:10){
   tryCatch({
@@ -146,15 +144,16 @@ for(i in 1:10){
   
 }
 
-
 링크_nnews <- 링크_nnews %>% unique()
-
+링크_nnews %>% View()
 
 
 ######## 1.sports.news-case
 
 sports.news <- grep("http://sports.news",링크_nnews)
 링크_sports.news <- 링크_nnews[sports.news]
+
+링크_sports.news %>% head()
 
 언론사_sports.news <- c()
 
@@ -439,14 +438,16 @@ length(주소_sports.news.re)
 ######## 2.news.naver
 
 news.naver <- grep("https://news.naver",링크_nnews)
-
 링크_news.naver <- 링크_nnews[news.naver]
+
+링크_news.naver %>% head()
 
 언론사_news.naver <- c()
 
 날짜_news.naver <- c()
 제목_news.naver <- c()
 본문_news.naver <- c()
+
 주소_news.naver <- c()
 
 좋아_news.naver <- c()
@@ -475,15 +476,16 @@ for (i in 1:length(링크_news.naver)){
     
     ##언론사(최종수정기사입력)
     
-    언론사.tmp1 <- body %>% 
+    언론사.tmp2 <- body %>% 
       html_nodes("div.link_news") %>% 
       html_nodes("h3") %>% 
       html_text()  
     
-    언론사.tmp1 <- str_replace_all(언론사.tmp1,"^[ ]+","")
+    언론사.tmp2 <- str_sub(언론사.tmp2,end=5)
+    언론사.tmp2 <- 언론사.tmp2 %>% str_trim()
     
-    if (length(언론사.tmp1) != 0) {
-      언론사_news.naver <- append(언론사_news.naver, 언론사.tmp1)
+    if (length(언론사.tmp2) != 0) {
+      언론사_news.naver <- append(언론사_news.naver, 언론사.tmp2)
     } else {
       언론사_news.naver <- append(언론사_news.naver, "수동확인")
     }
@@ -647,6 +649,8 @@ for (i in 1:length(링크_news.naver)){
     
     
     #더보기
+    body <- remDr$getPageSource()[[1]]
+    body <- body %>% read_html()
     
     for(j in 0:500){
       tryCatch({
@@ -751,7 +755,7 @@ length(주소_news.naver.re)
 
 ## 하나의 데이터프레임으로 합침
 
-paper_sports.news <- data.frame(날짜_sports.news, 제목_sports.news, 본문_sports.news,주소_sports.news,좋아_sports.news,슬퍼_sports.news,화나_sports.news,팬이_sports.news,후속_sports.news,댓글수_sports.news,주소_sports.news.re)
+paper_sports.news <- data.frame(날짜_sports.news, 제목_sports.news, 본문_sports.news,주소_sports.news,좋아_sports.news,슬퍼_sports.news,화나_sports.news,팬이_sports.news,후속_sports.news)
 
 paper_sports.news <- rename(paper_sports.news,c("날짜" = 날짜_sports.news,
                                                 "제목" = 제목_sports.news,
@@ -761,11 +765,9 @@ paper_sports.news <- rename(paper_sports.news,c("날짜" = 날짜_sports.news,
                                                 "슬퍼요" = 슬퍼_sports.news, 
                                                 "화나요" = 화나_sports.news,
                                                 "팬이에요" = 팬이_sports.news,
-                                                "후속기사" = 후속_sports.news,
-                                                "댓글수" = 댓글수_sports.news,
-                                                "댓글주소" = 주소_sports.news.re))
+                                                "후속기사" = 후속_sports.news))
 
-paper_news.naver <- data.frame(날짜_news.naver, 제목_news.naver, 본문_news.naver,주소_news.naver,좋아_news.naver,슬퍼_news.naver,화나_news.naver,팬이_news.naver,후속_news.naver,댓글수_news.naver,주소_news.naver.re)
+paper_news.naver <- data.frame(날짜_news.naver, 제목_news.naver, 본문_news.naver,주소_news.naver,좋아_news.naver,슬퍼_news.naver,화나_news.naver,팬이_news.naver,후속_news.naver)
 
 
 paper_news.naver <- rename(paper_news.naver,c("날짜" = 날짜_news.naver,
@@ -776,14 +778,12 @@ paper_news.naver <- rename(paper_news.naver,c("날짜" = 날짜_news.naver,
                                               "슬퍼요" = 슬퍼_news.naver, 
                                               "화나요" = 화나_news.naver,
                                               "팬이에요" = 팬이_news.naver,
-                                              "후속기사" = 후속_news.naver,
-                                              "댓글수" = 댓글수_news.naver,
-                                              "댓글주소" = 주소_news.naver.re))
+                                              "후속기사" = 후속_news.naver))
 
 paper_nnews <- rbind(paper_sports.news,paper_news.naver)
 
 
-write.csv(paper_nnews, file = "D:/성재/크롤링/paper_nnews_다이노스.csv", row.names=FALSE)
+write.csv(paper_nnews, file = "D:/paper_nnews_다이노스.csv", row.names=FALSE)
 
 
 
@@ -798,7 +798,7 @@ searchword <- "다이노스"
 seq <- seq(from = 1, by = 10, length.out = 200)
 
 sd <- "2020.01.01"
-ed <- "2020.02.29"
+ed <- "2020.03.29"
 
 
 res_nnews <- GET(url = 'https://search.naver.com/search.naver',
@@ -1009,37 +1009,6 @@ for (i in 1:length(링크_nnews_sp1)){
 링크_nnews_object <- paste0("news",링크_nnews_oid,",",링크_nnews_aid)
 
 
-
-
-#### 댓글개수 get
-
-res_nnews_rp <- GET(url = "https://apis.nnews.com/commentBox/cbox/web_neo_list_jsonp.json", 
-                    query = list(ticket = "sports", 
-                                 pool = "cbox2", 
-                                 lang = "ko", 
-                                 country = "KR", 
-                                 objectId = 링크_nnews_object[1], 
-                                 pageSize = 20, 
-                                 ndexSize= 10,
-                                 page = 1, 
-                                 sort = "like"),
-                    add_headers(링크_nnews[1]))
-
-
-## 댓글개수
-
-댓글개수.tmp <- res_nnews_rp %>% 
-  read_html() %>%  
-  html_nodes("div.u_cbox_head") %>%
-  html_nodes("span.u_cbox_count") %>%
-  html_text()
-
-
-if (length(댓글개수.tmp) == 0) {
-  댓글개수_nnews <- append(댓글개수_nnews, "수동확인")
-} else {
-  댓글개수_nnews <- append(댓글개수_nnews, 댓글개수.tmp)
-}
 
 
 ##댓글수
