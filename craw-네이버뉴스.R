@@ -359,9 +359,6 @@ for (i in 1:length(링크_sports.news)){
     
     for(j in 0:500){
       tryCatch({
-        body <- remDr$getPageSource()[[1]]
-        body <- body %>% read_html()
-        
         j <- j+1    
         
         more_reply <- remDr$findElement("css", "span.u_cbox_page_more")
@@ -380,10 +377,7 @@ for (i in 1:length(링크_sports.news)){
     
     
     #댓글+댓글수
-    
-    body <- remDr$getPageSource()[[1]]
-    body <- body %>% read_html()
-    
+
     댓글.tmp1 <- body %>% 
       html_nodes("span.u_cbox_contents") %>% 
       html_text()
