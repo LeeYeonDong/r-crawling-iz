@@ -101,14 +101,30 @@ names(depth1_df) <- c("id", "depth1")
 #  이분그래프 df
 df <- depth0_df %>% 
      left_join(depth1_df, by = "id") %>%
-     na.omit()  %>% 
-        select("id","depth1") %>% 
-        graph_from_data_frame(directed = FALSE) 
+    select(id, depth1) %>% 
+     na.omit() %>% 
+  graph_from_data_frame(directed = FALSE)
+# 
+# dep0 <- append(df$depth0, df$depth1)
+# dep0 <- dep0 %>% unique() %>% as_tibble()
+# dep0$id0 <- c(1:length(dep0$value))
+# names(dep0) <- c("depth0","value0")
+# 
+# dep1 <- dep0
+# names(dep1) <- c("depth1","value1")
+# 
+# df_numid <- df %>%
+#   select("depth0", "depth1") %>%
+#   left_join(dep0, by = "depth0") %>%
+#   left_join(dep1, by = "depth1") %>%
+#         select("value0","value1") %>%
+#         graph_from_data_frame(directed = FALSE)
 
 df %>% get.incidence()
 
 V(df)$type <- bipartite_mapping(df)$type 
-## bipartite_mapping( )함수는 양자간(TRUE / FALSE)로 구성하는 그래프를 그려주는 함수입니다
+## bipartite_mapping( )함수는 양자간(TRUE / FALSE)로 구성하는 그래프를 그려주는 함수입니다 
+# 사용자 이분그래프모형을 이용한 온라인 커뮤니티 토론 네트워크의 군집성과 극성 분석 - 논문참조
 
 V(df)$color <- V(df)$type
 V(df)$color <- gsub("FALSE","red",V(df)$color)
