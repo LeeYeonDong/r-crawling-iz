@@ -5,6 +5,10 @@ library(rJava)
 library(stringr)
 library(rvest)
 library(RSelenium)
+library(widyr)
+library(ggraph)
+library(tidygraph)
+library(igraph)
 
 # 데이터 수집
 head <- "https://www.pgr21.com/spoent/" 

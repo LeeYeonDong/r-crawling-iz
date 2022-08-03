@@ -285,6 +285,7 @@ start.time <- Sys.time()
 출처_ds <- c()
 댓글수_ds <- c()
 댓글날짜_ds <- c()
+링크_mc_ds_com <- c()
 
 for(i in 1:length(링크_ds_all)){
   tryCatch({
@@ -335,6 +336,9 @@ for(i in 1:length(링크_ds_all)){
     댓글날짜_ds <- append(댓글날짜_ds, c(0)) 
   }    
   
+  링크_ds_all.tmp <- 링크_ds_all[i]
+  링크_ds_all_com <- append(링크_ds_all_com,링크_ds_all.tmp)
+  
   Sys.sleep(time = 1)
     
   }, error = function(e) cat("불러올 수 없습니다!\n"))
@@ -343,6 +347,7 @@ for(i in 1:length(링크_ds_all)){
 
 # 데이터 프레임 만들기
 n4g_ds <- data.frame(제목_ds,
+                     링크_ds_all_com,
                      관심도_ds,
                      날짜_ds,
                      종류_ds,
@@ -350,7 +355,7 @@ n4g_ds <- data.frame(제목_ds,
                      댓글수_ds,
                      댓글날짜_ds)
 
-names(n4g_ds) <- c("제목", "관심도", "날짜", "종류", "출처", "댓글수","댓글날짜")
+names(n4g_ds) <- c("제목","링크", "관심도", "날짜", "종류", "출처", "댓글수","댓글날짜")
 
 # 데이터 저장
 write.csv(n4g_ds, file = "D:/대학원/논문/소논문/텍스트마이닝 생존분석/n4g_ds.csv", row.names=FALSE, fileEncoding = 'utf-8')
@@ -364,6 +369,7 @@ write.csv(n4g_ds, file = "D:/대학원/논문/소논문/텍스트마이닝 생�
 출처_lou <- c()
 댓글수_lou <- c()
 댓글날짜_lou <- c()
+링크_mc_lou_com <- c()
 
 for(i in 1:length(링크_lou_all)){
   tryCatch({
@@ -414,6 +420,9 @@ for(i in 1:length(링크_lou_all)){
       댓글날짜_lou <- append(댓글날짜_lou, c(0)) 
     }    
     
+    링크_lou_all.tmp <- 링크_lou_all[i]
+    링크_lou_all_com <- append(링크_lou_all_com,링크_lou_all.tmp)
+    
     Sys.sleep(time = 1)
     
   }, error = function(e) cat("불러올 수 없습니다!\n"))
@@ -421,6 +430,7 @@ for(i in 1:length(링크_lou_all)){
 
 # 데이터 프레임 만들기
 n4g_lou <- data.frame(제목_lou,
+                      링크_lou_all_com,
                         관심도_lou,
                         날짜_lou,
                         종류_lou,
@@ -428,7 +438,7 @@ n4g_lou <- data.frame(제목_lou,
                         댓글수_lou,
                         댓글날짜_lou)
 
-names(n4g_lou) <- c("제목", "관심도", "날짜", "종류", "출처", "댓글수","댓글날짜")
+names(n4g_lou) <- c("제목", "링크", "관심도", "날짜", "종류", "출처", "댓글수","댓글날짜")
 
 # 데이터 저장
 write.csv(n4g_lou, file = "D:/대학원/논문/소논문/텍스트마이닝 생존분석/n4g_lou.csv", row.names=FALSE, fileEncoding = 'utf-8')
@@ -442,6 +452,7 @@ write.csv(n4g_lou, file = "D:/대학원/논문/소논문/텍스트마이닝 생�
 출처_mc <- c()
 댓글수_mc <- c()
 댓글날짜_mc <- c()
+링크_mc_all_com <- c()
 
 for(i in 1:length(링크_mc_all)){
   tryCatch({
@@ -492,6 +503,9 @@ for(i in 1:length(링크_mc_all)){
       댓글날짜_mc <- append(댓글날짜_mc, c(0)) 
     }    
     
+    링크_mc_all.tmp <- 링크_mc_all[i]
+    링크_mc_all_com <- append(링크_mc_all_com,링크_mc_all.tmp)
+    
     Sys.sleep(time = 1)
     
   }, error = function(e) cat("불러올 수 없습니다!\n"))
@@ -499,6 +513,7 @@ for(i in 1:length(링크_mc_all)){
 
 # 데이터 프레임 만들기
 n4g_mc <- data.frame(제목_mc,
+                     링크_mc_all_com,
                        관심도_mc,
                        날짜_mc,
                        종류_mc,
@@ -506,8 +521,7 @@ n4g_mc <- data.frame(제목_mc,
                        댓글수_mc,
                        댓글날짜_mc)
 
-
-names(n4g_mc) <- c("제목", "관심도", "날짜", "종류", "출처", "댓글수","댓글날짜")
+names(n4g_mc) <- c("제목", "링크","관심도", "날짜", "종류", "출처", "댓글수","댓글날짜")
 
 # 데이터 저장
 write.csv(n4g_mc, file = "D:/대학원/논문/소논문/텍스트마이닝 생존분석/n4g_mc.csv", row.names=FALSE, fileEncoding = 'utf-8')
@@ -521,6 +535,7 @@ write.csv(n4g_mc, file = "D:/대학원/논문/소논문/텍스트마이닝 생�
 출처_lol <- c()
 댓글수_lol <- c()
 댓글날짜_lol <- c()
+링크_mc_lol_com <- c()
 
 for(i in 1:length(링크_lol_all)){
   tryCatch({
@@ -571,6 +586,9 @@ for(i in 1:length(링크_lol_all)){
       댓글날짜_lol <- append(댓글날짜_lol, c(0)) 
     }    
     
+    링크_lol_all.tmp <- 링크_mc_all[i]
+    링크_lol_all_com <- append(링크_lol_all_com,링크_lol_all.tmp)
+    
     Sys.sleep(time = 1)
     
   }, error = function(e) cat("불러올 수 없습니다!\n"))
@@ -578,6 +596,7 @@ for(i in 1:length(링크_lol_all)){
 
 # 데이터 프레임 만들기
 n4g_lol <- data.frame(제목_lol,
+                      링크_lol_all_com,
                         관심도_lol,
                         날짜_lol,
                         종류_lol,
@@ -585,7 +604,7 @@ n4g_lol <- data.frame(제목_lol,
                         댓글수_lol,
                         댓글날짜_lol)
 
-names(n4g_lol) <- c("제목", "관심도", "날짜", "종류", "출처", "댓글수","댓글날짜")
+names(n4g_lol) <- c("제목", "링크","관심도", "날짜", "종류", "출처", "댓글수","댓글날짜")
 
 # 데이터 저장
 write.csv(n4g_lol, file = "D:/대학원/논문/소논문/텍스트마이닝 생존분석/n4g_lol.csv", row.names=FALSE, fileEncoding = 'utf-8')
