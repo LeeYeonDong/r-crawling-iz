@@ -105,9 +105,16 @@ names(depth1_df) <- c("id", "depth1")
 #  이분그래프 df
 df <- depth0_df %>% 
      left_join(depth1_df, by = "id") %>%
-    select(id, depth1) %>% 
-     na.omit() %>% 
-  graph_from_data_frame(directed = FALSE)
+    select(depth0, depth1) %>% 
+     na.omit() 
+tdf <- df %>% table()
+g <- graph.incidence(tdf, weighted = TRUE)
+is.bipartite(g)
+# colrs <- c("red", "blue")[V(g)$type + 1L]
+colrs <- gsub("FALSE","gray",V(g)$type)
+colrs <- gsub("TRUE","white",colrs)
+
+plot(g, vertex.color = colrs, edge.color = "gray30",edge.width = E(g)$weight, layout=layout_as_bipartite)
 # 
 # dep0 <- append(df$depth0, df$depth1)
 # dep0 <- dep0 %>% unique() %>% as_tibble()
@@ -124,13 +131,25 @@ df <- depth0_df %>%
 #         select("value0","value1") %>%
 #         graph_from_data_frame(directed = FALSE)
 
-df %>% get.incidence()
+# df %>% get.incidence(attr = "weight")
+# 
+# V(df)$type <- bipartite_mapping(df)$type 
+# 
+# V(df)$type <- V(df)$name %in% edges[,2]
+# ## bipartite_mapping( )함수는 양자간(TRUE / FALSE)로 구성하는 그래프를 그려주는 함수입니다 
+# # 사용자 이분그래프모형을 이용한 온라인 커뮤니티 토론 네트워크의 군집성과 극성 분석 - 논문참조
+# # names(V(df)) <- c(" "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ")
+# V(df)$color <- V(df)$type
+# V(df)$color <- gsub("FALSE","red",V(df)$color)
+# V(df)$color <- gsub("TRUE","blue",V(df)$color)
+# plot(df, edge.color="gray30",edge.width=E(df)$weight, layout=layout_as_bipartite)
+install.packages("network")
+require(network)
+install.packages("sna")
+require(sna)
+devtools::install_github("briatte/ggnet")
+require(ggnet)
+install.packages("ergm")
+require(ergm)
 
-V(df)$type <- bipartite_mapping(df)$type 
-## bipartite_mapping( )함수는 양자간(TRUE / FALSE)로 구성하는 그래프를 그려주는 함수입니다 
-# 사용자 이분그래프모형을 이용한 온라인 커뮤니티 토론 네트워크의 군집성과 극성 분석 - 논문참조
-
-V(df)$color <- V(df)$type
-V(df)$color <- gsub("FALSE","red",V(df)$color)
-V(df)$color <- gsub("TRUE","blue",V(df)$color)
-plot(df, edge.color="gray30",edge.width=E(df)$weight, layout=layout_as_bipartite, )
+bip_railway
