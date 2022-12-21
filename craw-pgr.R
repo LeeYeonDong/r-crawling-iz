@@ -107,6 +107,14 @@ df <- depth0_df %>%
      left_join(depth1_df, by = "id") %>%
     select(depth0, depth1) %>% 
      na.omit() 
+
+df <- df[-8,]
+
+add <- data.frame(depth0 = rep(c("스타나라","김솔","김솔"), times = 2), 
+                  depth1 = rep(c("무적LG오지환","니가커서된게나다","Croove"), times = 2))
+
+df <- bind_rows(df, add)
+
 tdf <- df %>% table()
 g <- graph.incidence(tdf, weighted = TRUE)
 is.bipartite(g)
