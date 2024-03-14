@@ -64,6 +64,11 @@ element <- remDr$findElement("css", "#ca_p1")
 element$clickElement()
 Sys.sleep(time = 0.5)
 
+element <- remDr$findElement("css", "#ca_2202")
+element$clickElement()
+Sys.sleep(time = 0.5)
+
+
 ## 언론사 선택 확인
 element <- remDr$findElement("css", "#_nx_option_media >
                                      div.con_bx >
@@ -75,7 +80,6 @@ Sys.sleep(time = 0.5)
 
 
 ########## 최신순
-
 element <- remDr$findElement("css", "div.news_option > 
                                      ul.sort > 
                                      li:nth-child(2)")
@@ -85,7 +89,6 @@ Sys.sleep(time = 0.5)
 
 
 ## 링크
-
 링크_nnews <- c()
 
 for(i in 1:10){

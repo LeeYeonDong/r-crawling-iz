@@ -1,29 +1,4 @@
-library(dplyr)
-library(httr)
-library(jsonlite)
-library(rJava)
-library(stringr)
-library(rvest)
-library(RSelenium)
-library(tidyverse)
-library(XML)
-
-Sys.setenv(JAVA_HOME='C:/Program Files/Java/jdk-18.0.1.1')
-
-read_html("https://www.naver.com/") %>% html_text()
-
-##cmd 관리자권한으로 실행
-# cd C:\r_selenium
-# java -Dwebdriver.gecko.driver="geckodriver.exe" -jar selenium-server-standalone-4.0.0-alpha-1.jar -port 4445
-
-# RSelenium
-remDr <- remoteDriver(remoteServerAddr="localhost", 
-                      port=4445L, 
-                      browserName="chrome")
-remDr$open()
-
-
-## n4g - dark_souls
+# n4g - dark_souls
 head <- "https://n4g.com/channel/"
 keyword <- "dark-souls"
 end <- "?load=3"
@@ -34,12 +9,12 @@ remDr$navigate(target1)
 
 Sys.sleep(time = 5)
 
-n <- 200
+n <- 1000
 
 body <- remDr$getPageSource()[[1]]
 body <- body %>% read_html()
 
-# lead more n차례 실행 - 구글 광고 닫고 실행
+# lead more n?????? ?????? - ?????? ?????? ?????? ??????
 for(i in 1:n){
   tryCatch({
     
@@ -50,7 +25,7 @@ for(i in 1:n){
     
     Sys.sleep(time = 1)
     
-  }, error = function(e) cat("불러올 수 없습니다!\n"))
+  }, error = function(e) cat("????????? ??? ????????????!\n"))
 }
 
 # collect element
@@ -58,109 +33,109 @@ for(i in 1:n){
 body <- remDr$getPageSource()[[1]]
 body <- body %>% read_html()
 
-head_링크_ds <- body %>% 
+head_??????_ds <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-content") %>%
   html_nodes("a.si-title") %>%
   html_attr("href")
 
-head_링크_ds <- paste0("https://n4g.com/",head_링크_ds)
+head_??????_ds <- paste0("https://n4g.com/",head_??????_ds)
 
-head_제목_ds <- body %>% 
+head_??????_ds <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-content") %>%
   html_nodes("a.si-title") %>%
   html_text()
 
-head_관심도_ds <- body %>% 
+head_?????????_ds <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("span.temp-label") %>%
   html_text()
 
-head_날짜_ds <- body %>% 
+head_??????_ds <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-timeago") %>%
   html_text()
 
-head_종류_ds <- body %>% 
+head_??????_ds <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-meta") %>%
   html_nodes("a") %>%
   html_text() %>% matrix(ncol=2, byrow = TRUE) %>% as.data.frame() %>% select(V1) %>% as.vector()
 
-head_출처_ds <- body %>% 
+head_??????_ds <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-meta") %>%
   html_nodes("a") %>%
   html_text() %>% matrix(ncol=2, byrow = TRUE) %>% as.data.frame() %>% select(V2) %>% as.vector()
 
-# 본문
-링크_ds <- body %>% 
+# ??????
+??????_ds <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-content") %>%
   html_nodes("a.si-title") %>%
   html_attr("href")
-링크_ds <- paste0("https://n4g.com/",링크_ds)
+??????_ds <- paste0("https://n4g.com/",??????_ds)
 
-제목_ds <- body %>% 
+??????_ds <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-content") %>%
   html_nodes("a.si-title") %>%
   html_text()
 
-관심도_ds <- body %>% 
+?????????_ds <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("span.temp-label") %>%
   html_text()
 
-날짜_ds <- body %>% 
+??????_ds <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-timeago") %>%
   html_text()
 
-종류_ds <- body %>% 
+??????_ds <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-meta") %>%
   html_nodes("a") %>%
   html_text() %>% matrix(ncol=2, byrow = TRUE) %>% as.data.frame() %>% select(V1) %>% as.vector()
 
-출처_ds <- body %>% 
+??????_ds <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-meta") %>%
   html_nodes("a") %>%
   html_text() %>% matrix(ncol=2, byrow = TRUE) %>% as.data.frame() %>% select(V2) %>% as.vector()
 
-# head 댓글
-head_댓글_ds <- c()
+# head ??????
+head_??????_ds <- c()
 
 env = environment()
 env$ans <- NULL
-for (i in 1:length(head_링크_ds)){
+for (i in 1:length(head_??????_ds)){
   tryCatch({
-    body <- head_링크_ds[i] %>% read_html()
+    body <- head_??????_ds[i] %>% read_html()
     
-    cat(i, '페이지 수집 중입니다.\n')
+    cat(i, '????????? ?????? ????????????.\n')
     
-    head_댓글_ds.tmp <- body %>% 
+    head_??????_ds.tmp <- body %>% 
       html_nodes("a.sd-commentcount") %>%
       html_text()
     
-    if (length(head_댓글_ds.tmp) != 0) {
-      head_댓글_ds <- append(head_댓글_ds, head_댓글_ds.tmp)
+    if (length(head_??????_ds.tmp) != 0) {
+      head_??????_ds <- append(head_??????_ds, head_??????_ds.tmp)
     } else {
-      head_댓글_ds <- append(head_댓글_ds,"0")
+      head_??????_ds <- append(head_??????_ds,"0")
     }   
     
     Sys.sleep(time = 1)
@@ -172,82 +147,81 @@ for (i in 1:length(head_링크_ds)){
   )
 }
 
-head_댓글_ds <- head_댓글_ds %>% as.integer()
+head_??????_ds <- head_??????_ds %>% as.integer()
 
-# 에러 구간 "0" 집어넣기
+# ?????? ?????? "0" ????????????
 er <- grep("error",env$ans)
 for (i in 1:length(er)){
-  head_댓글_ds <- append(head_댓글_ds,c(0),after = er[i]-1)
+  head_??????_ds <- append(head_??????_ds,c(0),after = er[i]-1)
 }
 
-head_n4g_ds <- data.frame(head_제목_ds,
-                          head_관심도_ds,
-                          head_날짜_ds,
-                          head_종류_ds,
-                          head_출처_ds,
-                          head_링크_ds,
-                          head_댓글_ds)
+head_n4g_ds <- data.frame(head_??????_ds,
+                          head_?????????_ds,
+                          head_??????_ds,
+                          head_??????_ds,
+                          head_??????_ds,
+                          head_??????_ds,
+                          head_??????_ds)
 
-names(head_n4g_ds) <- c("제목", "관심도", "날짜", "종류", "출처", "링크", "댓글")
+names(head_n4g_ds) <- c("??????", "?????????", "??????", "??????", "??????", "??????", "??????")
 head_n4g_ds %>% str()
 
 
-# 본문 댓글
-댓글_ds <- c()
+# ?????? ??????
+??????_ds <- c()
 
 env = environment()
 env$ans <- NULL
-for (i in 1:length(링크_ds)){
+for (i in 1:length(??????_ds)){
   tryCatch({
-    body <- 링크_ds[i] %>% read_html()
-
-    cat(i, '페이지 수집 중입니다.\n')
-     
-    댓글_ds.tmp <- body %>% 
+    body <- ??????_ds[i] %>% read_html()
+    
+    cat(i, '????????? ?????? ????????????.\n')
+    
+    ??????_ds.tmp <- body %>% 
       html_nodes("a.sd-commentcount") %>%
       html_text()
     
-    if (length(댓글_ds.tmp) != 0) {
-      댓글_ds <- append(댓글_ds, 댓글_ds.tmp)
+    if (length(??????_ds.tmp) != 0) {
+      ??????_ds <- append(??????_ds, ??????_ds.tmp)
     } else {
-      댓글_ds <- append(댓글_ds,"0")
+      ??????_ds <- append(??????_ds,"0")
     }   
-
+    
     Sys.sleep(time = 0.5)
-
+    
   }, error = function(e) {
     cat(conditionMessage(e),"\n")
     env$ans[i] <- "error"
-    }
-)
+  }
+  )
 }
-댓글_ds <- 댓글_ds %>% as.integer()
+??????_ds <- ??????_ds %>% as.integer()
 
-# 에러 구간 "0" 집어넣기
+# ?????? ?????? "0" ????????????
 er <- grep("error",env$ans)
 for (i in 1:length(er)){
-  댓글_ds <- append(댓글_ds,c(0),after = er[i]-1)
+  ??????_ds <- append(??????_ds,c(0),after = er[i]-1)
 }
-  
-n4g_ds <- data.frame(제목_ds,
-                     관심도_ds,
-                     날짜_ds,
-                     종류_ds,
-                     출처_ds,
-                     링크_ds,
-                     댓글_ds)
 
-names(n4g_ds) <- c("제목", "관심도", "날짜", "종류", "출처", "링크", "댓글")
+n4g_ds <- data.frame(??????_ds,
+                       ?????????_ds,
+                       ??????_ds,
+                       ??????_ds,
+                       ??????_ds,
+                       ??????_ds,
+                       ??????_ds)
+
+names(n4g_ds) <- c("??????", "?????????", "??????", "??????", "??????", "??????", "??????")
 n4g_ds %>% str()
 
-# head + 본문
+# head + ??????
 n4g_ds <- bind_rows(head_n4g_ds,n4g_ds)
 n4g_ds %>% dim()
 
-write.csv(n4g_ds, file = "D:/대학원/논문/소논문/텍스트마이닝 생존분석/n4g_ds.csv", row.names=FALSE)
+write.csv(n4g_ds, file = "D:/?????????/??????/?????????/?????????????????? ????????????/n4g_ds.csv", row.names=FALSE)
 
-
-## n4g – the last of us
+# n4g � the last of us
 # RSelenium
 remDr <- remoteDriver(remoteServerAddr="localhost", 
                       port=4445L, 
@@ -263,12 +237,12 @@ remDr$navigate(target2)
 
 Sys.sleep(time = 5)
 
-n <- 200
+n <- 1000
 
 body <- remDr$getPageSource()[[1]]
 body <- body %>% read_html()
 
-# lead more n차례 실행 - 구글 광고 닫고 실행
+# lead more n?????? ?????? - ?????? ?????? ?????? ??????
 for(i in 1:n){
   tryCatch({
     
@@ -279,7 +253,7 @@ for(i in 1:n){
     
     Sys.sleep(time = 1)
     
-  }, error = function(e) cat("불러올 수 없습니다!\n"))
+  }, error = function(e) cat("????????? ??? ????????????!\n"))
 }
 
 # collect element
@@ -287,109 +261,109 @@ for(i in 1:n){
 body <- remDr$getPageSource()[[1]]
 body <- body %>% read_html()
 
-head_링크_lou <- body %>% 
+head_??????_lou <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-content") %>%
   html_nodes("a.si-title") %>%
   html_attr("href")
 
-head_링크_lou <- paste0("https://n4g.com/",head_링크_lou)
+head_??????_lou <- paste0("https://n4g.com/",head_??????_lou)
 
-head_제목_lou <- body %>% 
+head_??????_lou <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-content") %>%
   html_nodes("a.si-title") %>%
   html_text()
 
-head_관심도_lou <- body %>% 
+head_?????????_lou <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("span.temp-label") %>%
   html_text()
 
-head_날짜_lou <- body %>% 
+head_??????_lou <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-timeago") %>%
   html_text()
 
-head_종류_lou <- body %>% 
+head_??????_lou <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-meta") %>%
   html_nodes("a") %>%
   html_text() %>% matrix(ncol=2, byrow = TRUE) %>% as.data.frame() %>% select(V1) %>% as.vector()
 
-head_출처_lou <- body %>% 
+head_??????_lou <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-meta") %>%
   html_nodes("a") %>%
   html_text() %>% matrix(ncol=2, byrow = TRUE) %>% as.data.frame() %>% select(V2) %>% as.vector()
 
-# 본문
-링크_lou <- body %>% 
+# ??????
+??????_lou <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-content") %>%
   html_nodes("a.si-title") %>%
   html_attr("href")
-링크_lou <- paste0("https://n4g.com/",링크_lou)
+??????_lou <- paste0("https://n4g.com/",??????_lou)
 
-제목_lou <- body %>% 
+??????_lou <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-content") %>%
   html_nodes("a.si-title") %>%
   html_text()
 
-관심도_lou <- body %>% 
+?????????_lou <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("span.temp-label") %>%
   html_text()
 
-날짜_lou <- body %>% 
+??????_lou <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-timeago") %>%
   html_text()
 
-종류_lou <- body %>% 
+??????_lou <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-meta") %>%
   html_nodes("a") %>%
   html_text() %>% matrix(ncol=2, byrow = TRUE) %>% as.data.frame() %>% select(V1) %>% as.vector()
 
-출처_lou <- body %>% 
+??????_lou <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-meta") %>%
   html_nodes("a") %>%
   html_text() %>% matrix(ncol=2, byrow = TRUE) %>% as.data.frame() %>% select(V2) %>% as.vector()
 
-# head 댓글
-head_댓글_lou <- c()
+# head ??????
+head_??????_lou <- c()
 
 env = environment()
 env$ans <- NULL
-for (i in 1:length(head_링크_lou)){
+for (i in 1:length(head_??????_lou)){
   tryCatch({
-    body <- head_링크_lou[i] %>% read_html()
+    body <- head_??????_lou[i] %>% read_html()
     
-    cat(i, '페이지 수집 중입니다.\n')
+    cat(i, '????????? ?????? ????????????.\n')
     
-    head_댓글_lou.tmp <- body %>% 
+    head_??????_lou.tmp <- body %>% 
       html_nodes("a.sd-commentcount") %>%
       html_text()
     
-    if (length(head_댓글_lou.tmp) != 0) {
-      head_댓글_lou <- append(head_댓글_lou, head_댓글_lou.tmp)
+    if (length(head_??????_lou.tmp) != 0) {
+      head_??????_lou <- append(head_??????_lou, head_??????_lou.tmp)
     } else {
-      head_댓글_lou <- append(head_댓글_lou,"0")
+      head_??????_lou <- append(head_??????_lou,"0")
     }   
     
     Sys.sleep(time = 1)
@@ -401,45 +375,45 @@ for (i in 1:length(head_링크_lou)){
   )
 }
 
-head_댓글_lou <- head_댓글_lou %>% as.integer()
+head_??????_lou <- head_??????_lou %>% as.integer()
 
-# 에러 구간 "0" 집어넣기
+# ?????? ?????? "0" ????????????
 er <- grep("error",env$ans)
 for (i in 1:length(er)){
-  head_댓글_lou <- append(head_댓글_lou,c(0),after = er[i]-1)
+  head_??????_lou <- append(head_??????_lou,c(0),after = er[i]-1)
 }
 
-head_n4g_lou <- data.frame(head_제목_lou,
-                           head_관심도_lou,
-                           head_날짜_lou,
-                           head_종류_lou,
-                           head_출처_lou,
-                           head_링크_lou,
-                           head_댓글_lou)
+head_n4g_lou <- data.frame(head_??????_lou,
+                           head_?????????_lou,
+                           head_??????_lou,
+                           head_??????_lou,
+                           head_??????_lou,
+                           head_??????_lou,
+                           head_??????_lou)
 
-names(head_n4g_lou) <- c("제목", "관심도", "날짜", "종류", "출처", "링크", "댓글")
+names(head_n4g_lou) <- c("??????", "?????????", "??????", "??????", "??????", "??????", "??????")
 head_n4g_lou %>% str()
 
 
-# 본문 댓글
-댓글_lou <- c()
+# ?????? ??????
+??????_lou <- c()
 
 env = environment()
 env$ans <- NULL
-for (i in 1:length(링크_lou)){
+for (i in 1:length(??????_lou)){
   tryCatch({
-    body <- 링크_lou[i] %>% read_html()
+    body <- ??????_lou[i] %>% read_html()
     
-    cat(i, '페이지 수집 중입니다.\n')
+    cat(i, '????????? ?????? ????????????.\n')
     
-    댓글_lou.tmp <- body %>% 
+    ??????_lou.tmp <- body %>% 
       html_nodes("a.sd-commentcount") %>%
       html_text()
     
-    if (length(댓글_lou.tmp) != 0) {
-      댓글_lou <- append(댓글_lou, 댓글_lou.tmp)
+    if (length(??????_lou.tmp) != 0) {
+      ??????_lou <- append(??????_lou, ??????_lou.tmp)
     } else {
-      댓글_lou <- append(댓글_lou,"0")
+      ??????_lou <- append(??????_lou,"0")
     }   
     
     Sys.sleep(time = 0.5)
@@ -450,40 +424,39 @@ for (i in 1:length(링크_lou)){
   }
   )
 }
-댓글_lou <- 댓글_lou %>% as.integer()
+??????_lou <- ??????_lou %>% as.integer()
 
-# 에러 구간 "0" 집어넣기
+# ?????? ?????? "0" ????????????
 er <- grep("error",env$ans)
 for (i in 1:length(er)){
-  댓글_lou <- append(댓글_lou,c(0),after = er[i]-1)
+  ??????_lou <- append(??????_lou,c(0),after = er[i]-1)
 }
 
-n4g_lou <- data.frame(제목_lou,
-                        관심도_lou,
-                        날짜_lou,
-                        종류_lou,
-                        출처_lou,
-                        링크_lou,
-                        댓글_lou)
+n4g_lou <- data.frame(??????_lou,
+                        ?????????_lou,
+                        ??????_lou,
+                        ??????_lou,
+                        ??????_lou,
+                        ??????_lou,
+                        ??????_lou)
 
-names(n4g_lou) <- c("제목", "관심도", "날짜", "종류", "출처", "링크", "댓글")
+names(n4g_lou) <- c("??????", "?????????", "??????", "??????", "??????", "??????", "??????")
 n4g_lou %>% str()
 
-# head + 본문
+# head + ??????
 n4g_lou <- bind_rows(head_n4g_lou,n4g_lou)
 n4g_lou %>% dim()
 
-write.csv(n4g_lou, file = "D:/대학원/논문/소논문/텍스트마이닝 생존분석/n4g_lou.csv", row.names=FALSE)
+write.csv(n4g_lou, file = "D:/?????????/??????/?????????/?????????????????? ????????????/n4g_lou.csv", row.names=FALSE)
 
-
-## n4g – minecraft
+# n4g � mincraft
 # RSelenium
 remDr <- remoteDriver(remoteServerAddr="localhost", 
                       port=4445L, 
                       browserName="chrome")
 remDr$open()
 head <- "https://n4g.com/channel/"
-keyword <- "minecraft"
+keyword <- "mincraft"
 end <- "?load=3"
 
 target3 <- paste0(head,keyword,end)
@@ -492,12 +465,12 @@ remDr$navigate(target3)
 
 Sys.sleep(time = 5)
 
-n <- 200
+n <- 1000
 
 body <- remDr$getPageSource()[[1]]
 body <- body %>% read_html()
 
-# lead more n차례 실행 - 구글 광고 닫고 실행
+# lead more n?????? ?????? - ?????? ?????? ?????? ??????
 for(i in 1:n){
   tryCatch({
     
@@ -508,7 +481,7 @@ for(i in 1:n){
     
     Sys.sleep(time = 1)
     
-  }, error = function(e) cat("불러올 수 없습니다!\n"))
+  }, error = function(e) cat("????????? ??? ????????????!\n"))
 }
 
 # collect element
@@ -516,109 +489,109 @@ for(i in 1:n){
 body <- remDr$getPageSource()[[1]]
 body <- body %>% read_html()
 
-head_링크_mc <- body %>% 
+head_??????_mc <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-content") %>%
   html_nodes("a.si-title") %>%
   html_attr("href")
 
-head_링크_mc <- paste0("https://n4g.com/",head_링크_mc)
+head_??????_mc <- paste0("https://n4g.com/",head_??????_mc)
 
-head_제목_mc <- body %>% 
+head_??????_mc <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-content") %>%
   html_nodes("a.si-title") %>%
   html_text()
 
-head_관심도_mc <- body %>% 
+head_?????????_mc <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("span.temp-label") %>%
   html_text()
 
-head_날짜_mc <- body %>% 
+head_??????_mc <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-timeago") %>%
   html_text()
 
-head_종류_mc <- body %>% 
+head_??????_mc <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-meta") %>%
   html_nodes("a") %>%
   html_text() %>% matrix(ncol=2, byrow = TRUE) %>% as.data.frame() %>% select(V1) %>% as.vector()
 
-head_출처_mc <- body %>% 
+head_??????_mc <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-meta") %>%
   html_nodes("a") %>%
   html_text() %>% matrix(ncol=2, byrow = TRUE) %>% as.data.frame() %>% select(V2) %>% as.vector()
 
-# 본문
-링크_mc <- body %>% 
+# ??????
+??????_mc <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-content") %>%
   html_nodes("a.si-title") %>%
   html_attr("href")
-링크_mc <- paste0("https://n4g.com/",링크_mc)
+??????_mc <- paste0("https://n4g.com/",??????_mc)
 
-제목_mc <- body %>% 
+??????_mc <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-content") %>%
   html_nodes("a.si-title") %>%
   html_text()
 
-관심도_mc <- body %>% 
+?????????_mc <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("span.temp-label") %>%
   html_text()
 
-날짜_mc <- body %>% 
+??????_mc <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-timeago") %>%
   html_text()
 
-종류_mc <- body %>% 
+??????_mc <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-meta") %>%
   html_nodes("a") %>%
   html_text() %>% matrix(ncol=2, byrow = TRUE) %>% as.data.frame() %>% select(V1) %>% as.vector()
 
-출처_mc <- body %>% 
+??????_mc <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-meta") %>%
   html_nodes("a") %>%
   html_text() %>% matrix(ncol=2, byrow = TRUE) %>% as.data.frame() %>% select(V2) %>% as.vector()
 
-# head 댓글
-head_댓글_mc <- c()
+# head ??????
+head_??????_mc <- c()
 
 env = environment()
 env$ans <- NULL
-for (i in 1:length(head_링크_mc)){
+for (i in 1:length(head_??????_mc)){
   tryCatch({
-    body <- head_링크_mc[i] %>% read_html()
+    body <- head_??????_mc[i] %>% read_html()
     
-    cat(i, '페이지 수집 중입니다.\n')
+    cat(i, '????????? ?????? ????????????.\n')
     
-    head_댓글_mc.tmp <- body %>% 
+    head_??????_mc.tmp <- body %>% 
       html_nodes("a.sd-commentcount") %>%
       html_text()
     
-    if (length(head_댓글_mc.tmp) != 0) {
-      head_댓글_mc <- append(head_댓글_mc, head_댓글_mc.tmp)
+    if (length(head_??????_mc.tmp) != 0) {
+      head_??????_mc <- append(head_??????_mc, head_??????_mc.tmp)
     } else {
-      head_댓글_mc <- append(head_댓글_mc,"0")
+      head_??????_mc <- append(head_??????_mc,"0")
     }   
     
     Sys.sleep(time = 1)
@@ -630,45 +603,45 @@ for (i in 1:length(head_링크_mc)){
   )
 }
 
-head_댓글_mc <- head_댓글_mc %>% as.integer()
+head_??????_mc <- head_??????_mc %>% as.integer()
 
-# 에러 구간 "0" 집어넣기
+# ?????? ?????? "0" ????????????
 er <- grep("error",env$ans)
 for (i in 1:length(er)){
-  head_댓글_mc <- append(head_댓글_mc,c(0),after = er[i]-1)
+  head_??????_mc <- append(head_??????_mc,c(0),after = er[i]-1)
 }
 
-head_n4g_mc <- data.frame(head_제목_mc,
-                          head_관심도_mc,
-                          head_날짜_mc,
-                          head_종류_mc,
-                          head_출처_mc,
-                          head_링크_mc,
-                          head_댓글_mc)
+head_n4g_mc <- data.frame(head_??????_mc,
+                          head_?????????_mc,
+                          head_??????_mc,
+                          head_??????_mc,
+                          head_??????_mc,
+                          head_??????_mc,
+                          head_??????_mc)
 
-names(head_n4g_mc) <- c("제목", "관심도", "날짜", "종류", "출처", "링크", "댓글")
+names(head_n4g_mc) <- c("??????", "?????????", "??????", "??????", "??????", "??????", "??????")
 head_n4g_mc %>% str()
 
 
-# 본문 댓글
-댓글_mc <- c()
+# ?????? ??????
+??????_mc <- c()
 
 env = environment()
 env$ans <- NULL
-for (i in 1:length(링크_mc)){
+for (i in 1:length(??????_mc)){
   tryCatch({
-    body <- 링크_mc[i] %>% read_html()
+    body <- ??????_mc[i] %>% read_html()
     
-    cat(i, '페이지 수집 중입니다.\n')
+    cat(i, '????????? ?????? ????????????.\n')
     
-    댓글_mc.tmp <- body %>% 
+    ??????_mc.tmp <- body %>% 
       html_nodes("a.sd-commentcount") %>%
       html_text()
     
-    if (length(댓글_mc.tmp) != 0) {
-      댓글_mc <- append(댓글_mc, 댓글_mc.tmp)
+    if (length(??????_mc.tmp) != 0) {
+      ??????_mc <- append(??????_mc, ??????_mc.tmp)
     } else {
-      댓글_mc <- append(댓글_mc,"0")
+      ??????_mc <- append(??????_mc,"0")
     }   
     
     Sys.sleep(time = 0.5)
@@ -679,40 +652,39 @@ for (i in 1:length(링크_mc)){
   }
   )
 }
-댓글_mc <- 댓글_mc %>% as.integer()
+??????_mc <- ??????_mc %>% as.integer()
 
-# 에러 구간 "0" 집어넣기
+# ?????? ?????? "0" ????????????
 er <- grep("error",env$ans)
 for (i in 1:length(er)){
-  댓글_mc <- append(댓글_mc,c(0),after = er[i]-1)
+  ??????_mc <- append(??????_mc,c(0),after = er[i]-1)
 }
 
-n4g_mc <- data.frame(제목_mc,
-                       관심도_mc,
-                       날짜_mc,
-                       종류_mc,
-                       출처_mc,
-                       링크_mc,
-                       댓글_mc)
+n4g_mc <- data.frame(??????_mc,
+                       ?????????_mc,
+                       ??????_mc,
+                       ??????_mc,
+                       ??????_mc,
+                       ??????_mc,
+                       ??????_mc)
 
-names(n4g_mc) <- c("제목", "관심도", "날짜", "종류", "출처", "링크", "댓글")
+names(n4g_mc) <- c("??????", "?????????", "??????", "??????", "??????", "??????", "??????")
 n4g_mc %>% str()
 
-# head + 본문
+# head + ??????
 n4g_mc <- bind_rows(head_n4g_mc,n4g_mc)
 n4g_mc %>% dim()
 
-write.csv(n4g_mc, file = "D:/대학원/논문/소논문/텍스트마이닝 생존분석/n4g_mc.csv", row.names=FALSE)
+write.csv(n4g_mc, file = "D:/?????????/??????/?????????/?????????????????? ????????????/n4g_mc.csv", row.names=FALSE)
 
 
-## n4g – league of legends
-# RSelenium
+# n4g � league of legend# RSelenium
 remDr <- remoteDriver(remoteServerAddr="localhost", 
                       port=4445L, 
                       browserName="chrome")
 remDr$open()
 head <- "https://n4g.com/channel/"
-keyword <- "league-of-legends"
+keyword <- "league-of-legend"
 end <- "?load=3"
 
 target4 <- paste0(head,keyword,end)
@@ -721,19 +693,23 @@ remDr$navigate(target4)
 
 Sys.sleep(time = 5)
 
-n <- 300
+n <- 1000
 
 body <- remDr$getPageSource()[[1]]
 body <- body %>% read_html()
 
-# lead more n차례 실행 - 구글 광고 닫고 실행
+# lead more n?????? ?????? - ?????? ?????? ?????? ??????
 for(i in 1:n){
   tryCatch({
+    
     more_reply <- remDr$findElement("css", "a.f-load-more-link")
     more_reply$clickElement()
+    
     if(i==n) break()
+    
     Sys.sleep(time = 1)
-  }, error = function(e) cat("불러올 수 없습니다!\n"))
+    
+  }, error = function(e) cat("????????? ??? ????????????!\n"))
 }
 
 # collect element
@@ -741,108 +717,113 @@ for(i in 1:n){
 body <- remDr$getPageSource()[[1]]
 body <- body %>% read_html()
 
-head_링크_lol <- body %>% 
+head_??????_lol <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-content") %>%
   html_nodes("a.si-title") %>%
   html_attr("href")
 
-head_링크_lol <- paste0("https://n4g.com/",head_링크_lol)
+head_??????_lol <- paste0("https://n4g.com/",head_??????_lol)
 
-head_제목_lol <- body %>% 
+head_??????_lol <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-content") %>%
   html_nodes("a.si-title") %>%
   html_text()
 
-head_관심도_lol <- body %>% 
+head_?????????_lol <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("span.temp-label") %>%
   html_text()
 
-head_날짜_lol <- body %>% 
+head_??????_lol <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-timeago") %>%
   html_text()
 
-head_종류_lol <- body %>% 
+head_??????_lol <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-meta") %>%
   html_nodes("a") %>%
   html_text() %>% matrix(ncol=2, byrow = TRUE) %>% as.data.frame() %>% select(V1) %>% as.vector()
 
-head_출처_lol <- body %>% 
+head_??????_lol <- body %>% 
   html_nodes("div.col-sm-12") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-meta") %>%
   html_nodes("a") %>%
   html_text() %>% matrix(ncol=2, byrow = TRUE) %>% as.data.frame() %>% select(V2) %>% as.vector()
 
-# 본문
-링크_lol <- body %>% 
+# ??????
+??????_lol <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-content") %>%
   html_nodes("a.si-title") %>%
   html_attr("href")
-링크_lol <- paste0("https://n4g.com/",링크_lol)
+??????_lol <- paste0("https://n4g.com/",??????_lol)
 
-제목_lol <- body %>% 
+??????_lol <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-content") %>%
   html_nodes("a.si-title") %>%
   html_text()
 
-관심도_lol <- body %>% 
+?????????_lol <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("span.temp-label") %>%
   html_text()
 
-날짜_lol <- body %>% 
+??????_lol <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-timeago") %>%
   html_text()
 
-종류_lol <- body %>% 
+??????_lol <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-meta") %>%
   html_nodes("a") %>%
   html_text() %>% matrix(ncol=2, byrow = TRUE) %>% as.data.frame() %>% select(V1) %>% as.vector()
 
-출처_lol <- body %>% 
+??????_lol <- body %>% 
   html_nodes("div.col-sm-4") %>%
   html_nodes("div.si-wrap") %>%
   html_nodes("div.si-meta") %>%
   html_nodes("a") %>%
   html_text() %>% matrix(ncol=2, byrow = TRUE) %>% as.data.frame() %>% select(V2) %>% as.vector()
 
-# head 댓글
-head_댓글_lol <- c()
+# head ??????
+head_??????_lol <- c()
 
 env = environment()
 env$ans <- NULL
-for (i in 1:length(head_링크_lol)){
+for (i in 1:length(head_??????_lol)){
   tryCatch({
-    body <- head_링크_lol[i] %>% read_html()
-    cat(i, '페이지 수집 중입니다.\n')
-    head_댓글_lol.tmp <- body %>% 
+    body <- head_??????_lol[i] %>% read_html()
+    
+    cat(i, '????????? ?????? ????????????.\n')
+    
+    head_??????_lol.tmp <- body %>% 
       html_nodes("a.sd-commentcount") %>%
       html_text()
-    if (length(head_댓글_lol.tmp) != 0) {
-      head_댓글_lol <- append(head_댓글_lol, head_댓글_lol.tmp)
+    
+    if (length(head_??????_lol.tmp) != 0) {
+      head_??????_lol <- append(head_??????_lol, head_??????_lol.tmp)
     } else {
-      head_댓글_lol <- append(head_댓글_lol,"0")
-    } 
+      head_??????_lol <- append(head_??????_lol,"0")
+    }   
+    
     Sys.sleep(time = 1)
+    
   }, error = function(e) {
     cat(conditionMessage(e),"\n")
     env$ans[i] <- "error"
@@ -850,71 +831,79 @@ for (i in 1:length(head_링크_lol)){
   )
 }
 
-head_댓글_lol <- head_댓글_lol %>% as.integer()
+head_??????_lol <- head_??????_lol %>% as.integer()
 
-# 에러 구간 "0" 집어넣기
+# ?????? ?????? "0" ????????????
 er <- grep("error",env$ans)
 for (i in 1:length(er)){
-  head_댓글_lol <- append(head_댓글_lol,c(0),after = er[i]-1)
+  head_??????_lol <- append(head_??????_lol,c(0),after = er[i]-1)
 }
 
-head_n4g_lol <- data.frame(head_제목_lol,
-                           head_관심도_lol,
-                           head_날짜_lol,
-                           head_종류_lol,
-                           head_출처_lol,
-                           head_링크_lol,
-                           head_댓글_lol)
+head_n4g_lol <- data.frame(head_??????_lol,
+                           head_?????????_lol,
+                           head_??????_lol,
+                           head_??????_lol,
+                           head_??????_lol,
+                           head_??????_lol,
+                           head_??????_lol)
 
-names(head_n4g_lol) <- c("제목", "관심도", "날짜", "종류", "출처", "링크", "댓글")
+names(head_n4g_lol) <- c("??????", "?????????", "??????", "??????", "??????", "??????", "??????")
 head_n4g_lol %>% str()
 
 
-# 본문 댓글
-댓글_lol <- c()
+# ?????? ??????
+??????_lol <- c()
 
 env = environment()
 env$ans <- NULL
-for (i in 1:length(링크_lol)){
+for (i in 1:length(??????_lol)){
   tryCatch({
-    body <- 링크_lol[i] %>% read_html()
-    cat(i, '페이지 수집 중입니다.\n')
-    댓글_lol.tmp <- body %>% 
+    body <- ??????_lol[i] %>% read_html()
+    
+    cat(i, '????????? ?????? ????????????.\n')
+    
+    ??????_lol.tmp <- body %>% 
       html_nodes("a.sd-commentcount") %>%
       html_text()
-    if (length(댓글_lol.tmp) != 0) {
-      댓글_lol <- append(댓글_lol, 댓글_lol.tmp)
+    
+    if (length(??????_lol.tmp) != 0) {
+      ??????_lol <- append(??????_lol, ??????_lol.tmp)
     } else {
-      댓글_lol <- append(댓글_lol,"0")
-    } 
+      ??????_lol <- append(??????_lol,"0")
+    }   
+    
     Sys.sleep(time = 0.5)
+    
   }, error = function(e) {
     cat(conditionMessage(e),"\n")
     env$ans[i] <- "error"
   }
   )
 }
-댓글_lol <- 댓글_lol %>% as.integer()
+??????_lol <- ??????_lol %>% as.integer()
 
-# 에러 구간 "0" 집어넣기
+# ?????? ?????? "0" ????????????
 er <- grep("error",env$ans)
 for (i in 1:length(er)){
-  댓글_lol <- append(댓글_lol,c(0),after = er[i]-1)
+  ??????_lol <- append(??????_lol,c(0),after = er[i]-1)
 }
 
-n4g_lol <- data.frame(제목_lol,
-                        관심도_lol,
-                        날짜_lol,
-                        종류_lol,
-                        출처_lol,
-                        링크_lol,
-                        댓글_lol)
+n4g_lol <- data.frame(??????_lol,
+                        ?????????_lol,
+                        ??????_lol,
+                        ??????_lol,
+                        ??????_lol,
+                        ??????_lol,
+                        ??????_lol)
 
-names(n4g_lol) <- c("제목", "관심도", "날짜", "종류", "출처", "링크", "댓글")
+names(n4g_lol) <- c("??????", "?????????", "??????", "??????", "??????", "??????", "??????")
 n4g_lol %>% str()
 
-# head + 본문
+# head + ??????
 n4g_lol <- bind_rows(head_n4g_lol,n4g_lol)
 n4g_lol %>% dim()
 
-write.csv(n4g_lol, file = "D:/대학원/논문/소논문/텍스트마이닝 생존분석/n4g_lol.csv", row.names=FALSE)
+write.csv(n4g_lol, file = "D:/?????????/??????/?????????/?????????????????? ????????????/n4g_lol.csv", row.names=FALSE)
+
+
+

@@ -306,7 +306,7 @@ scores.df.t <- scores.df.t %>% as.data.frame()
 이낙연[이낙연 ==""] <- NULL
 
 
-이낙연 <- sample(이낙연, size = 20000, replace=FALSE)
+이낙연 <- sample(이낙연, size = 1000, replace=FALSE)
 
 
 이낙연_words <- 이낙연 %>% SimplePos09()
@@ -392,21 +392,21 @@ scores.df.t <- scores.df.t %>% as.data.frame()
 이낙연_count <- sort(이낙연_count, decreasing = TRUE)
 
 이낙연_count50 <- 이낙연_count[1:50]
-
+이낙연_count50 %>% class()
 
 ## 빈도그래프 
 
 이낙연_count50df <- 이낙연_count50 %>% as.data.frame()
-이낙연_단어빈도 <- ggplot(이낙연_count50df, aes(x=이낙연, y=Freq)) + geom_bar(stat="identity")
+이낙연_단어빈도 <- ggplot(이낙연_count50df, aes(x=이낙연, y=Freq)) + geom_bar(stat="identity") +
+  theme(axis.text.x=element_text(angle=90, hjust=1))
 
 
 #워드크라우드
 
-par(no.readonly = TRUE) 
-
 이낙연_count50 <- 이낙연_count50[2:length(이낙연_count50)]
-이낙연_워드크라우드 <- 이낙연_count50 %>% wordcloud2()
+이낙연_워드크라우드 <- 이낙연_count50 %>% wordcloud2(minRotation = 0, maxRotation = 0, shape ="circle")
 
+letterCloud()
 
 
 
@@ -509,12 +509,11 @@ par(no.readonly = TRUE)
 ## 빈도그래프 
 
 황교안_count50df <- 황교안_count50 %>% as.data.frame()
-황교안_단어빈도 <- ggplot(황교안_count50df, aes(x=황교안, y=Freq)) + geom_bar(stat="identity")
+황교안_단어빈도 <- ggplot(황교안_count50df, aes(x=황교안, y=Freq)) + geom_bar(stat="identity")  +
+  theme(axis.text.x=element_text(angle=90, hjust=1))
 
 
 #워드크라우드
-
-par(no.readonly = TRUE) 
 
 황교안_count50 <- 황교안_count50[2:length(황교안_count50)]
 황교안_워드크라우드 <- 황교안_count50 %>% wordcloud2()

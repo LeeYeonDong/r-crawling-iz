@@ -8,9 +8,6 @@ library(RSelenium)
 library(tidyverse)
 library(XML)
 
-library(rvest)
-library(tuber)
-
 
 # Start selenium server
 remDr <- remoteDriver(remoteServerAddr="localhost", 

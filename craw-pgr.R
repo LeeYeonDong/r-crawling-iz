@@ -1,3 +1,6 @@
+library(KoNLP)
+library(tidyverse)
+
 library(dplyr)
 library(httr)
 library(jsonlite)
@@ -101,6 +104,9 @@ id_depth1 <- id_depth1 %>% na.omit()
 depth1_df <- tibble(id_depth1, depth1)
 names(depth1_df) <- c("id", "depth1")
 
+write.csv(depth1_df,file="D:/대학원/논문/네트워크 그래프/depth1_df.csv")
+
+# raw1 <- read_csv(file = "D:/대학원/논문/네트워크 그래프/depth1_df.csv", col_names = TRUE, locale = locale('ko',encoding='utf-8'))
 
 #  이분그래프 df
 df <- depth0_df %>% 
