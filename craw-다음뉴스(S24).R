@@ -1,7 +1,6 @@
 library(tidyverse)
 library(httr)
 library(jsonlite)
-library(rJava)
 library(rvest)
 
 
@@ -63,10 +62,10 @@ article_link <- c()
 
 i <- 1 # 인덱스 초기화
 while (i <= 10) { # (i <= length(link_s24))
-  article_link_tmp <- link_s24[1] %>%
+  article_link_tmp <- link_s24[i] %>%
     read_html() %>%
-    html_text()
     html_nodes('div.item-title') %>%
+    html_nodes('a') %>% 
     html_attr("href")
   
   if (length(article_link_tmp) == 0) {

@@ -7,6 +7,8 @@ library(rvest)
 library(RSelenium)
 library(tidyverse)
 library(openxlsx)
+library(data.table)
+library(readr)
 
 Sys.setenv("http_proxy"="")
 Sys.setenv("no_proxy"=TRUE)
@@ -190,12 +192,16 @@ end_time1 - start_time1
 
 
 # element 수집
-sp = 10
-spn = ceiling((length(link_re) / sp))
-link_re_sp <- link_re %>% split(rep(1:spn, each=sp))
+# install.packages("data.table")
+
+link_re <- fread("D:/대학원/논문/소논문/부동산_토픽모델링/link_re.csv")
+# encoding = "UTF-8" 옵션있음
+
+link_re <- link_re %>% as_tibble
+link_re <- link_re$x
 
 time1 <- seq(from = 0.1, to = 0.5, by = 0.000001)
-time2 <- seq(from = 0.1, to = 2, by = 0.000001)
+time2 <- rep(c(0,0.5), c(20,1))
 
 start_time2 <- Sys.time()
 
@@ -207,13 +213,12 @@ start_time2 <- Sys.time()
 부동산_df <- tibble()
 부동산_본문df <- tibble()
 
-for (i in 1:length(link_re_sp)){
-    for (j in 1:sp){
+
+for (i in 1:length(link_re)){
   tryCatch({
     cat(i, '페이지 수집 중 입니다.\n') 
     
-    링크.tmp <- link_re_sp[[i]][j]
-    body <- 링크.tmp %>% read_html()
+    body <- link_re[i] %>% read_html()
     
     부동산_제목.tmp <- body %>% 
       html_nodes("div.media_end_head_title") %>%
@@ -234,19 +239,17 @@ for (i in 1:length(link_re_sp)){
     부동산_본문.tmp <- body %>% 
       html_nodes("article.go_trans") %>%
       html_text() 
-    
-    cat('데이터 프레임', j, 'th 행을 구성하는 중.\n') 
-    
-    부동산_df <- rbind(부동산_df,tibble(부동산_제목.tmp,부동산_날짜.tmp,부동산_언론사.tmp,링크.tmp))
+
+    부동산_df <- rbind(부동산_df,tibble(부동산_제목.tmp,부동산_날짜.tmp,부동산_언론사.tmp,link_re[i]))
         
-    부동산_본문df <- rbind(부동산_본문df,tibble(부동산_본문.tmp,링크.tmp))
+    부동산_본문df <- rbind(부동산_본문df,tibble(부동산_본문.tmp,link_re[i]))
     
     Sys.sleep(time = sample(time1,1))
+    Sys.sleep(time = sample(time2,1))
     
   }, error = function(e) cat("불러올 수 없습니다!\n"))
       
     }
-  }
 
 
 names(부동산_df) <- c("제목", "날짜", "언론사", "링크")
@@ -260,3 +263,34 @@ write.xlsx(부동산_본문df, file = "D:/대학원/논문/소논문/부동산_�
 end_time2 <- Sys.time()
 
 end_time2 - start_time2
+
+부동산_df %>% head()
+부동산_본문_추가df <- cbind(부동산_df ,부동산_본문df)
+부동산_본문_추가df <- 부동산_본문_추가df %>% 
+  select(-6)
+부동산_본문_추가df %>% dim()
+부동산_본문_추가df %>% glimpse()
+
+write.xlsx(부동산_본문_추가df, file = "D:/대학원/논문/소논문/부동산_감정사전/부동산_본문_추가_df.xlsx", rowNames=FALSE, fileEncoding = 'cp949')
+
+
+부동산_본문_추가df$날짜 %>% head()
+
+# 연도별로 데이터 프레임 나누기
+부동산_본문_추가df$year <- str_extract(부동산_본문_추가df$날짜, "\\d{4}")
+
+# split 함수를 사용하여 연도별로 데이터프레임 분할
+list_of_dfs <- split(부동산_본문_추가df, 부동산_본문_추가df$year)
+
+list_of_dfs %>% names()
+list_of_dfs %>% glimpse()
+
+# list_of_dfs는 연도별로 분할된 데이터 프레임의 리스트입니다.
+# 각 데이터 프레임을 해당 연도의 이름으로 Excel 파일로 저장
+for (year in names(list_of_dfs)) {
+  # 파일 경로 및 이름 설정
+  file_path <- paste0("D:/대학원/논문/소논문/부동산_감정사전/부동산_본문_추가_", year, "_df.xlsx")
+  
+  # 데이터 프레임을 Excel 파일로 저장
+  write.xlsx(list_of_dfs[[year]], file = file_path, rowNames = FALSE)
+}
